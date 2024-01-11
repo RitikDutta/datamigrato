@@ -1,2 +1,6 @@
 #dirs
 experiments/
+
+#files
+cassandra_*.json
+secure-connect-cassandra-*.zip
