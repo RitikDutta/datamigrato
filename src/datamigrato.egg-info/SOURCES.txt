@@ -31,6 +31,7 @@ src/datamigrato/handler/__init__.py
 src/datamigrato/handler/datamigrato_handler.py
 src/datamigrato/handler/__pycache__/__init__.cpython-39.pyc
 src/datamigrato/handler/__pycache__/datamigrato.cpython-39.pyc
+src/datamigrato/handler/__pycache__/datamigrato_handler.cpython-39.pyc
 src/datamigrato/migration/__init__.py
 src/datamigrato/migration/base_migrator.py
 src/datamigrato/migration/cassandra_migrator.py

@@ -180,8 +180,6 @@ class CassandraCRUD:
 
 
 
-cc = CassandraCRUD("data_migrato_key",
-                    "new_table",
-                    # "secure-connect-cassandra-datamigrato.zip", 
-                    # "cassandra_datamigrato-token.json"
-                    )
+class Test:
+    def __init__(self):
+        print("test")

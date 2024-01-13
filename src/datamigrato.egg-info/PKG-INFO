@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: datamigrato
-Version: 0.1.9
+Version: 0.2.0
 Summary: A Python package for migrating data between various databases.
 Home-page: https://github.com/ritikdutta/datamigrato
 Author: ritikdutta
