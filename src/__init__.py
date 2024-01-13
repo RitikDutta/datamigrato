@@ -1,1 +1,1 @@
-from .handler.datamigrato import Datamigrato
+from .handler.datamigrato import datamigrato
