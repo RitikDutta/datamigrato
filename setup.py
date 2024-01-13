@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-__version__ = "0.1.8"
+__version__ = "0.1.9"
 REPO_NAME = "datamigrato"
 PKG_NAME= "datamigrato"
 AUTHOR_USER_NAME = "ritikdutta"
