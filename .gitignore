@@ -4,3 +4,4 @@ experiments/
 #files
 cassandra_*.json
 secure-connect-cassandra-*.zip
+test_package.py
