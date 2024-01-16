@@ -18,7 +18,7 @@ class CassandraCRUD:
                     raise FileNotFoundError("Unable to automatically determine secure bundle file.")
                 secure_bundle = secure_bundle_files[0]
         except FileNotFoundError as e:
-            print(e)
+            print(e) 
 
 
         try:            
@@ -177,9 +177,37 @@ class CassandraCRUD:
             print("Data inserted successfully")
         except Exception as e:
             print(f"An error occurred during insertion: {e}")
+            
+    def insert_many_mongodb_data(self, mongodb_data_list, primary_key, flatten=False):
+        # Ensure the table is created only once
+        table_created = False
 
+        for mongodb_data in mongodb_data_list:
+            # Convert ObjectId to string (or handle it as per your requirement)
+            if '_id' in mongodb_data:
+                mongodb_data['_id'] = str(mongodb_data['_id'])
 
+            # Flatten the data if required
+            if flatten:
+                mongodb_data = self.flatten_data(mongodb_data)
 
-class Test:
-    def __init__(self):
-        print("test")
+            if primary_key not in mongodb_data:
+                raise ValueError("Primary key not found in the provided data")
+
+            # Create dynamic table if not already created
+            if not table_created:
+                self.create_dynamic_table(mongodb_data.keys(), primary_key)
+                table_created = True
+
+            # Prepare data for insertion
+            cassandra_data = {k: str(v) for k, v in mongodb_data.items()}
+
+            # Construct the query
+            column_names = ', '.join([f'"{k}"' for k in cassandra_data.keys()])
+            placeholders = ', '.join(['%s' for _ in cassandra_data])
+            insert_query = f"INSERT INTO {self.keyspace_name}.{self.table_name} ({column_names}) VALUES ({placeholders})"
+            try:
+                self.create(insert_query, tuple(cassandra_data.values()))
+                print("Data inserted successfully")
+            except Exception as e:
+                print(f"An error occurred during insertion: {e}")
