@@ -4,17 +4,19 @@ from pymongo.errors import ConnectionFailure, PyMongoError
 
 class MongoDB_CRUD:
     def __init__(self, client_url, database_name, collection_name):
+        self.is_connected = False
         try:
-            client_url = "mongodb+srv://nisamfaras2:9JKFV21I5PvAZtgi@cluster0.sm6y67x.mongodb.net/?retryWrites=true&w=majority"
-            database_name = 'database_test'
-            collection_name = 'collection_test'
+            # client_url = "mongodb+srv://nisamfaras2:9JKFV21I5PvAZtgi@cluster0.sm6y67x.mongodb.net/?retryWrites=true&w=majority"
+            # database_name = 'database_test'
+            # collection_name = 'collection_test'
             self.client = MongoClient(client_url)
             self.client.server_info()  # Trigger exception if cannot connect to database
             self.db = self.client[database_name]
             self.collection = self.db[collection_name]
             print("Connected to MongoDB")
+            self.is_connected = True
         except ConnectionFailure:
-            print("Failed to connect to MongoDB")
+            print("Failed to connect to MongoDB \n\t1. check if u added ip in Mongo\n\t2. creds are correct")
         except PyMongoError as e:
             print(f"An error occurred: {e}")
 
@@ -38,6 +40,8 @@ class MongoDB_CRUD:
         except PyMongoError as e:
             print(f"An error occurred during reading all documents: {e}")
             return None
+        except AttributeError as e:
+            print("Error On Database initialization")
 
     def update(self, query, new_values):
         try:
