@@ -6,9 +6,6 @@ class MongoDB_CRUD:
     def __init__(self, client_url, database_name, collection_name):
         self.is_connected = False
         try:
-            # client_url = "mongodb+srv://nisamfaras2:9JKFV21I5PvAZtgi@cluster0.sm6y67x.mongodb.net/?retryWrites=true&w=majority"
-            # database_name = 'database_test'
-            # collection_name = 'collection_test'
             self.client = MongoClient(client_url)
             self.client.server_info()  # Trigger exception if cannot connect to database
             self.db = self.client[database_name]
