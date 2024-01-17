@@ -35,6 +35,10 @@ jobs:
     - name: Start Docker Container
       run: |
         docker-compose -f ./FreeAPI/docker-compose.yml up --build --detach backend
+        
+    - name: Check Docker Container Logs
+      run: docker-compose -f ./FreeAPI/docker-compose.yml logs backend
+
 
     - name: Run Pytest
       run: |
