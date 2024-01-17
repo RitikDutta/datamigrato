@@ -44,7 +44,7 @@ jobs:
 
     - name: Build and run Docker container
       run: |
-        docker-compose -f ./FreeAPI/docker-compose.yml up --build --detach backend
+        docker-compose -f ./FreeAPI/docker-compose.yml up --build --attach backend
 
     - name: Wait for the application to start
       run: sleep 10  # Adjust the sleep duration as needed for your application
