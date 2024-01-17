@@ -34,7 +34,7 @@ jobs:
 
     - name: Start Docker Container
       run: |
-      	cd ./FreeAPI
+      	cd FreeAPI/
         docker-compose up --build --attach backend
         
     - name: Check Docker Container Logs
