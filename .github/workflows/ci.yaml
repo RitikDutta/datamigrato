@@ -35,7 +35,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: '3.8'  # You can also use a matrix strategy for multiple Python versions
+        python-version: '3.8' 
 
     - name: Install dependencies
       run: |
@@ -47,7 +47,7 @@ jobs:
         docker-compose -f ./FreeAPI/docker-compose.yml up --build --attach backend
 
     - name: Wait for the application to start
-      run: sleep 10  # Adjust the sleep duration as needed for your application
+      run: sleep 10 
 
     - name: Run Pytest in tests/unit directory
       run: pytest ./tests/unit
