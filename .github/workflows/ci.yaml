@@ -44,6 +44,8 @@ jobs:
     - name: Check Docker Container Logs
       run: docker-compose -f ./FreeAPI/docker-compose.yml logs backend
 
+    - name: Add 'src' directory to PYTHONPATH
+      run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/src" >> $GITHUB_ENV
 
     - name: Run Pytest
       run: |
