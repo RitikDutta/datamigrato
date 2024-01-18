@@ -1,7 +1,7 @@
 import requests
 
 def test_api_response():
-    url = 'http://localhost:8080/api/v1/healthcheck'
+    url = 'http://localhost:8000/api/v1/healthcheck'
     response = requests.get(url)
     
     # Print the status code and the returned data for debugging
