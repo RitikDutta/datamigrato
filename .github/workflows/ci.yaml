@@ -47,7 +47,7 @@ jobs:
 
     - name: Run Pytest
       run: |
-        pytest tests/unit
+        pytest tests/test_unit.py
 
     - name: Stop Docker Container
       if: always()  # Ensures this step runs even if previous steps fail
