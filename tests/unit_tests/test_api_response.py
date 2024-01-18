@@ -6,7 +6,7 @@ class Test:
         self.run_test()
         
     def run_test(self):
-        url = 'http://localhost:8000/api/v1/healthcheck'
+        url = 'http://localhost:8080/api/v1/healthcheck'
         
         try:
             response = requests.get(url)
