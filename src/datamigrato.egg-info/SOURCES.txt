@@ -16,7 +16,7 @@ examples/cassandra_to_firestore.py
 examples/firestore_to_mongodb.py
 examples/realtime_to_cassandra.py
 src/datamigrato/__init__.py
-src/datamigrato/test.py
+src/datamigrato/test_py.py
 src/datamigrato.egg-info/PKG-INFO
 src/datamigrato.egg-info/SOURCES.txt
 src/datamigrato.egg-info/dependency_links.txt
@@ -48,4 +48,4 @@ src/datamigrato/migration/mongodb_migrator.py
 src/datamigrato/migration/realtime_migrator.py
 src/datamigrato/utils/__init__.py
 src/datamigrato/utils/common_utils.py
-tests/test_api_response.py
+tests/test_unit.py

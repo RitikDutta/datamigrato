@@ -138,5 +138,3 @@ class CassandraCRUD:
             print(f"Table {self.table_name} created successfully with dynamic schema.")
         except Exception as e:
             print(f"An error occurred during dynamic table creation: {e}")
-
-    
