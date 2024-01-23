@@ -1,4 +1,7 @@
 import yaml
+import requests
+import json
+
 class Common_utils:
     """docstring for Common_utils"""
     def __init__(self):
@@ -33,3 +36,8 @@ class Common_utils:
             print(f"An error occurred: {e}")
 
         return client_url, database_name, collection_name
+
+    def get_users_freeAPI(self, url):
+        # data = requests.get('https://legendary-goldfish-wv67q9gxvx93gj9g-8080.app.github.dev/api/v1/public/randomusers?page=1&limit=10')
+        data = requests.get(url)
+        return data.json()['data']['data']
