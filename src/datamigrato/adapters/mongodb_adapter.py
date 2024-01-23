@@ -24,6 +24,28 @@ class MongoDB_CRUD:
         except PyMongoError as e:
             print(f"An error occurred during insertion: {e}")
 
+    def create_many(self, data_list):
+        try:
+            if isinstance(data_list, list) and all(isinstance(item, dict) for item in data_list):
+                result = self.collection.insert_many(data_list)
+                print(f"Inserted {len(result.inserted_ids)} documents successfully")
+            else:
+                raise ValueError("Input should be a list of dictionaries")
+        except PyMongoError as e:
+            print(f"An error occurred during insertion: {e}")
+        except ValueError as e:
+            print(e)
+
+    def count_documents(self, query={}):
+        try:
+            count = self.collection.count_documents(query)
+            print(f"Number of documents: {count}")
+            return count
+        except PyMongoError as e:
+            print(f"An error occurred during counting documents: {e}")
+            return None
+
+
     def read(self, query):
         try:
             return self.collection.find_one(query)
