@@ -3,7 +3,7 @@ from datamigrato.adapters.mongodb_adapter import MongoDB_CRUD
 from datamigrato.adapters.cassandra_adapter import CassandraCRUD
 
 class Mongo_migrator:
-    def __init__(self, cred_file=None, client_url=None, database_name=None, collection_name=None):
+    def __init__(self, cred_file=None, client_url=None, database_name=None, collection_name=None, populate_url=None):
         self.common_utils = Common_utils()
         try:
             client_url = client_url
@@ -15,24 +15,31 @@ class Mongo_migrator:
 
             if not all([client_url, database_name, collection_name]):
                 raise ValueError("Missing required database parameters")
+
+            self.mongo_adapter = MongoDB_CRUD(client_url, database_name, collection_name)
+        
+            if populate_url:
+                self.populate_mongo(populate_url)
+
+            self.mongo_data_list = self.mongo_adapter.read_all()
+
         except Exception as e:
             print(e)
 
-        
-        self.mongo_adapter = MongoDB_CRUD(client_url, database_name, collection_name)
-        if self.mongo_adapter.is_connected:
-            self.mongo_data_list = self.mongo_adapter.read_all()
+    def populate_mongo(self, url):
+        data = self.common_utils.get_users_freeAPI(url)
+        self.mongo_adapter.create_many(data)
 
-    def migrate_to_cassandra(self, primary_key, flatten=False):
+
+    def migrate_to_cassandra(self, primary_key, keyspace_name=None, table_name=None, bundle=None, token=None, flatten=False):
+        keyspace_name = keyspace_name or "data_migrato_key"
+        table_name = table_name or "new_table"
+        bundle = bundle or "secure-connect-cassandra-datamigrato.zip"
+        token = token or "cassandra_datamigrato-token.json"
         
         #cassandra object
         if self.mongo_adapter.is_connected:
-            cassandra_adapter = CassandraCRUD(
-                "data_migrato_key",
-                "new_table",
-                "secure-connect-cassandra-datamigrato.zip", 
-                "cassandra_datamigrato-token.json"
-            )
+            cassandra_adapter = CassandraCRUD(keyspace_name, table_name, bundle, token)
         else:
             print("Skipping cassandra connection")
 
