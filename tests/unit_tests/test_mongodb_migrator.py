@@ -16,9 +16,10 @@ class Test:
 
 	def populate_mongo(self):
 		url = 'http://localhost:8080/api/v1/public/randomusers?page=1&limit=10'
-		# url = 'https://literate-guide-5v6q74x5vw5c4q44-8080.app.github.dev/api/v1/public/randomusers?page=1&limit=10'
+		url = 'https://literate-guide-5v6q74x5vw5c4q44-8080.app.github.dev/api/v1/public/randomusers?page=1&limit=10'
 		self.handler.populate_mongo(url=url, client_url=self.client_url, database_name=self.database_name, collection_name=self.collection_name)
 		assert True
 	
 	def mongo_to_cassandra(self):
 		self.handler.mongo_to_cassandra(primary_key='id', client_url=self.client_url, database_name=self.database_name, collection_name=self.collection_name, keyspace_name=None, table_name=None, bundle=None, token=None, flatten=True)
+		assert True
