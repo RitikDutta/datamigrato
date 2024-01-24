@@ -4,9 +4,12 @@ import json
 from tabulate import tabulate
 import pandas as pd
 import glob
+from datamigrato.utils.common_utils import Common_utils
+
 
 class CassandraCRUD:
     def __init__(self, keyspace_name, table_name, secure_bundle=None, credentials_file=None):
+        self.common_utils = Common_utils()
         self.keyspace_name = keyspace_name
         self.table_name = table_name
 
@@ -17,6 +20,7 @@ class CassandraCRUD:
                 if len(secure_bundle_files) != 1:
                     raise FileNotFoundError("Unable to automatically determine secure bundle file.")
                 secure_bundle = secure_bundle_files[0]
+
         except FileNotFoundError as e:
             print(e) 
 
@@ -44,7 +48,7 @@ class CassandraCRUD:
             self.session.set_keyspace(keyspace_name)
             print("Connected to Cassandra")
         except TypeError as e:
-            print(f"Maybe check your file: \n{e}")
+            print(f"Check your creds file: \n{e}")
         except Exception as e:
             print(f"Failed to connect to Cassandra: {e}")
 
@@ -83,6 +87,22 @@ class CassandraCRUD:
             return self.session.execute(query, parameters).one()
         except Exception as e:
             print(f"An error occurred during reading: {e}")
+
+    def read_all(self):
+        try:
+            query = f"SELECT * FROM {self.keyspace_name}.{self.table_name};"
+            result_set = self.session.execute(query)
+            records = []
+
+            # Convert each row in the result set to a dictionary
+            for row in result_set:
+                record = {column: getattr(row, column) for column in row._fields}
+                records.append(record)
+
+            return records
+        except Exception as e:
+            print(f"An error occurred during reading all data: {e}")
+            return []
 
     def update(self, query, parameters=None):
         try:
@@ -138,3 +158,36 @@ class CassandraCRUD:
             print(f"Table {self.table_name} created successfully with dynamic schema.")
         except Exception as e:
             print(f"An error occurred during dynamic table creation: {e}")
+
+    def insert_json_data(self,data, primary_key = 'id', flatten=False):
+        table_created = False
+        try:
+            for data_instance in data:
+                # Convert ObjectId to string (or handle it as per your requirement)
+                if primary_key in data_instance:
+                    data_instance[primary_key] = str(data_instance[primary_key])
+
+                # Flatten the data if required
+                if flatten:
+                    data_instance = self.common_utils.flatten_data(data_instance)
+
+                if primary_key not in data_instance:
+                    raise ValueError("Primary key not found in the provided data")
+
+                # Create dynamic table if not already created
+                if not table_created:
+                    self.create_dynamic_table(data_instance.keys(), primary_key)
+                    table_created = True
+
+                # Prepare data for insertion
+                cassandra_data = {k: str(v) for k, v in data_instance.items()}
+
+                # Construct the query
+                column_names = ', '.join([f'"{k}"' for k in cassandra_data.keys()])
+                placeholders = ', '.join(['%s' for _ in cassandra_data])
+                insert_query = f"INSERT INTO {self.keyspace_name}.{self.table_name} ({column_names}) VALUES ({placeholders})"
+                self.create(insert_query, tuple(cassandra_data.values()))
+        except TypeError as e:
+            print(f"Error on reading tables {e}")
+        except AttributeError as e:
+            print(f"list object not created")
