@@ -8,7 +8,7 @@ class Test:
 		self.collection_name='col_pytest'
 		self.handler = Datamigrato()
 		self.populate_mongo() 
-		# self.mongo_to_cassandra()
+		self.mongo_to_cassandra()
 
 	def getcreds(self):
 		creds = 'creds'
@@ -20,10 +20,10 @@ class Test:
 		self.handler.populate_mongo(url=url, client_url=self.client_url, database_name=self.database_name, collection_name=self.collection_name)
 		assert True
 	
-def mongo_to_cassandra():
-	client_url='mongodb+srv://nisamfaras2:9JKFV21I5PvAZtgi@cluster0.sm6y67x.mongodb.net/?retryWrites=true&w=majority'
-	database_name='db_pytest'
-	collection_name='col_pytest'
-	handler = Datamigrato()
-	handler.mongo_to_cassandra(primary_key='id', client_url=client_url, database_name=database_name, collection_name=collection_name, keyspace_name=None, table_name=None, bundle=None, token=None, flatten=True)
-	assert True
+	def mongo_to_cassandra(self):
+		client_url='mongodb+srv://nisamfaras2:9JKFV21I5PvAZtgi@cluster0.sm6y67x.mongodb.net/?retryWrites=true&w=majority'
+		database_name='db_pytest'
+		collection_name='col_pytest'
+		handler = Datamigrato()
+		handler.mongo_to_cassandra(primary_key='id', client_url=client_url, database_name=database_name, collection_name=collection_name, keyspace_name=None, table_name=None, bundle=None, token=None, flatten=True)
+		assert True

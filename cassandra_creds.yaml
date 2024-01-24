@@ -1,0 +1,2 @@
+keyspace_name: 'data_migrato_key'
+table_name: 'new_table'
