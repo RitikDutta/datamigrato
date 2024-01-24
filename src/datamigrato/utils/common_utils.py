@@ -20,14 +20,11 @@ class Common_utils:
                     items.append((new_key, v))
             return dict(items)
 
-    def read_credentials(self, cred_file):
+    def read_credentials(self, cred_file='creds'):
         client_url, database_name, collection_name = None, None, None
         try:
             with open(cred_file, 'r') as file:
                 creds = yaml.safe_load(file)
-                client_url = creds.get('client_url')
-                database_name = creds.get('database_name')
-                collection_name = creds.get('collection_name')
         except FileNotFoundError:
             print(f"Credentials file {cred_file} not found.")
         except yaml.YAMLError as e:
@@ -35,7 +32,7 @@ class Common_utils:
         except Exception as e:
             print(f"An error occurred: {e}")
 
-        return client_url, database_name, collection_name
+        return creds
 
     def get_users_freeAPI(self, url):
         # data = requests.get('https://legendary-goldfish-wv67q9gxvx93gj9g-8080.app.github.dev/api/v1/public/randomusers?page=1&limit=10')
