@@ -46,6 +46,13 @@ jobs:
 
     - name: Add 'src' directory to PYTHONPATH
       run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/src" >> $GITHUB_ENV
+      
+    - name: Decode secure bundle and create file
+      run: echo "${{ secrets.SECURE_BUNDLE_BASE64 }}" | base64 -d > secure-connect-cassandra.zip
+
+    - name: Decode token and create file
+      run: echo "${{ secrets.TOKEN_JSON_BASE64 }}" | base64 -d > cassandra_datamigrato-token.json
+
 
     - name: Run Pytest
       run: |
