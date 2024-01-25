@@ -7,7 +7,7 @@ class Test:
 		self.database_name='db_pytest'
 		self.collection_name='col_pytest'
 		self.handler = Datamigrato()
-		# self.populate_mongo() 
+		self.populate_mongo() 
 		self.mongo_to_cassandra(bundle=bundle, token=token)
 
 	def getcreds(self):
