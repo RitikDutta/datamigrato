@@ -48,10 +48,14 @@ jobs:
       run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/src" >> $GITHUB_ENV
       
     - name: Decode secure bundle and create file
-      run: echo "${{ secrets.SECURE_BUNDLE_BASE64 }}" | base64 -d > secure-connect-cassandra.zip
+      run: |
+        echo "${{ secrets.SECURE_BUNDLE_BASE64 }}" | base64 -d > secure-connect-cassandra-datamigrato.zip
+        echo "Secure bundle file path: $(echo %cd%)\secure-connect-cassandra-datamigrato.zip.zip"
 
     - name: Decode token and create file
-      run: echo "${{ secrets.TOKEN_JSON_BASE64 }}" | base64 -d > cassandra_datamigrato-token.json
+      run: |
+        echo "${{ secrets.TOKEN_JSON_BASE64 }}" | base64 -d > cassandra_datamigrato-token.json
+        echo "Token file path: $(echo %cd%)\cassandra_datamigrato-token.json"
 
 
     - name: Run Pytest
