@@ -8,12 +8,12 @@ from datamigrato.utils.common_utils import Common_utils
 
 
 class CassandraCRUD:
-    def __init__(self, keyspace_name, table_name, secure_bundle=None, credentials_file=None):
+    def __init__(self, keyspace_name, table_name, secure_bundle=None, token=None):
         self.common_utils = Common_utils()
         self.keyspace_name = keyspace_name
         self.table_name = table_name
 
-        # Automatically detect secure_bundle and credentials_file if not provided
+        # Automatically detect secure_bundle and token if not provided
         try:
             if secure_bundle is None:
                 secure_bundle_files = glob.glob('secure-connect-cassandra-*.zip')
@@ -26,17 +26,18 @@ class CassandraCRUD:
 
 
         try:            
-            if credentials_file is None:
+            if token is None:
                 credentials_files = glob.glob('*-token.json')
                 if len(credentials_files) != 1:
                     raise FileNotFoundError("Unable to automatically determine credentials file.")
-                credentials_file = credentials_files[0]
+                token = credentials_files[0]
         except FileNotFoundError as e:
             print(e)
         try:
+            
             # Load cloud configuration and credentials
             cloud_config = {'secure_connect_bundle': secure_bundle}
-            with open(credentials_file) as f:
+            with open(token) as f:
                 secrets = json.load(f)
 
             # Setup authentication

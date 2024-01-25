@@ -10,5 +10,5 @@ class Datamigrato:
 
     def mongo_to_cassandra(self, primary_key='id', flatten=False, client_url=None, database_name=None, collection_name=None, keyspace_name=None, table_name=None, bundle=None, token=None):
         migrator = Mongo_migrator(client_url=client_url, database_name=database_name, collection_name=collection_name)
-        migrator.migrate_to_cassandra(primary_key, flatten=flatten)
+        migrator.migrate_to_cassandra(primary_key, flatten=flatten, bundle=bundle, token=token)
         print("="*50)
