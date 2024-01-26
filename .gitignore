@@ -1,6 +1,6 @@
 #dirs
 experiments/
-__pycache__
+__pycache__/
 
 #files
 cassandra_*.json
