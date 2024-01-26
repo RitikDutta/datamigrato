@@ -8,8 +8,7 @@ class Test:
 		self.collection_name='col_pytest'
 		self.handler = Datamigrato()
 		self.populate_mongo() 
-		self.mongo_to_cassandra(bundle=bundle, token=token)
-		self.flatten=flatten
+		self.mongo_to_cassandra(bundle=bundle, token=token, flatten=flatten)
 
 	def getcreds(self):
 		creds = 'creds'
@@ -21,6 +20,6 @@ class Test:
 		self.handler.populate_mongo(url=url, client_url=self.client_url, database_name=self.database_name, collection_name=self.collection_name)
 		assert True
 	
-	def mongo_to_cassandra(self, bundle=None, token=None):
-		self.handler.mongo_to_cassandra(primary_key='id', client_url=self.client_url, database_name=self.database_name, collection_name=self.collection_name, keyspace_name=None, table_name=None, bundle=bundle, token=token, flatten=self.flatten)
+	def mongo_to_cassandra(self, bundle=None, token=None, flatten=False):
+		self.handler.mongo_to_cassandra(primary_key='id', client_url=self.client_url, database_name=self.database_name, collection_name=self.collection_name, keyspace_name=None, table_name=None, bundle=bundle, token=token, flatten=flatten)
 		assert True
