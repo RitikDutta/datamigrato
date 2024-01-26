@@ -8,6 +8,6 @@ def test_api():
     test_api_response.Test(url)
 
 def test_mongo():
-    test_mongodb_migrator.Test(bundle="/home/runner/work/datamigrato/datamigrato/secure-connect-cassandra-datamigrato.zip", token="/home/runner/work/datamigrato/datamigrato/cassandra_datamigrato-token.json")
+    test_mongodb_migrator.Test(bundle="/home/runner/work/datamigrato/datamigrato/secure-connect-cassandra-datamigrato.zip", token="/home/runner/work/datamigrato/datamigrato/cassandra_datamigrato-token.json", flatten=False)
 
 test_mongo()
