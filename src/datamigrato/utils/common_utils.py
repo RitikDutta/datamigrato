@@ -35,6 +35,10 @@ class Common_utils:
         return creds
 
     def get_users_freeAPI(self, url):
-        # data = requests.get('https://legendary-goldfish-wv67q9gxvx93gj9g-8080.app.github.dev/api/v1/public/randomusers?page=1&limit=10')
-        data = requests.get(url)
-        return data.json()['data']['data']
+        try:
+            # data = requests.get('https://legendary-goldfish-wv67q9gxvx93gj9g-8080.app.github.dev/api/v1/public/randomusers?page=1&limit=10')
+            data = requests.get(url)
+            return data.json()['data']['data']
+        except:
+            print("Failed to fetch data from API")
+            return []
