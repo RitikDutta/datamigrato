@@ -34,8 +34,6 @@ class Mongo_migrator:
     def migrate_to_cassandra(self, primary_key, keyspace_name=None, table_name=None, bundle=None, token=None, flatten=False):
         keyspace_name = keyspace_name or "data_migrato_key"
         table_name = table_name or "new_table"
-        bundle = bundle or "secure-connect-cassandra-datamigrato.zip"
-        token = token or "cassandra_datamigrato-token.json"
 
         #cassandra object
         if self.mongo_adapter.is_connected:

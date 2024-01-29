@@ -1,6 +1,7 @@
 #dirs
 experiments/
 __pycache__/
+.vscode/
 
 #files
 cassandra_*.json
