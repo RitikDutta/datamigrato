@@ -160,35 +160,39 @@ class CassandraCRUD:
         except Exception as e:
             print(f"An error occurred during dynamic table creation: {e}")
 
-    def insert_json_data(self,data, primary_key = 'id', flatten=False):
-        table_created = False
+    def insert_json_data(self, data, primary_key='id', flatten=False):
+        """Inserts JSON data into the Cassandra table, creating the table dynamically if needed."""
         try:
+            table_created = self._create_table_if_needed(data, primary_key)
             for data_instance in data:
-                # Convert ObjectId to string (or handle it as per your requirement)
-                if primary_key in data_instance:
-                    data_instance[primary_key] = str(data_instance[primary_key])
-
-                # Flatten the data if required
-                if flatten:
-                    data_instance = self.common_utils.flatten_data(data_instance)
-
-                if primary_key not in data_instance:
-                    raise ValueError("Primary key not found in the provided data")
-
-                # Create dynamic table if not already created
-                if not table_created:
-                    self.create_dynamic_table(data_instance.keys(), primary_key)
-                    table_created = True
-
-                # Prepare data for insertion
-                cassandra_data = {k: str(v) for k, v in data_instance.items()}
-
-                # Construct the query
-                column_names = ', '.join([f'"{k}"' for k in cassandra_data.keys()])
-                placeholders = ', '.join(['%s' for _ in cassandra_data])
-                insert_query = f"INSERT INTO {self.keyspace_name}.{self.table_name} ({column_names}) VALUES ({placeholders})"
-                self.create(insert_query, tuple(cassandra_data.values()))
+                self._process_and_insert_data_instance(data_instance, primary_key, flatten, table_created)
         except TypeError as e:
-            print(f"Error on reading tables {e}")
-        except AttributeError as e:
-            print(f"list object not created")
+            print(f"Error processing data: {e}")
+        except ValueError as e:
+            print(e)
+
+    def _create_table_if_needed(self, data, primary_key):
+        """Creates a dynamic table based on the data's keys if it has not been created yet."""
+        if data and isinstance(data, list):
+            first_data_instance = data[0]
+            self.create_dynamic_table(first_data_instance.keys(), primary_key)
+            return True
+        return False
+
+    def _process_and_insert_data_instance(self, data_instance, primary_key, flatten, table_created):
+        """Processes a single data instance and inserts it into the Cassandra table."""
+        if primary_key not in data_instance:
+            raise ValueError("Primary key not found in the provided data")
+
+        if flatten:
+            data_instance = self.common_utils.flatten_data(data_instance)
+
+        cassandra_data = {k: str(v) for k, v in data_instance.items()}
+        self._insert_data_into_cassandra(cassandra_data)
+
+    def _insert_data_into_cassandra(self, cassandra_data):
+        """Constructs and executes an INSERT query to insert data into the Cassandra table."""
+        column_names = ', '.join([f'"{k}"' for k in cassandra_data.keys()])
+        placeholders = ', '.join(['%s' for _ in cassandra_data])
+        insert_query = f"INSERT INTO {self.keyspace_name}.{self.table_name} ({column_names}) VALUES ({placeholders})"
+        self.create(insert_query, tuple(cassandra_data.values()))
