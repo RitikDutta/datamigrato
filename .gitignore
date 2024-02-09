@@ -10,3 +10,6 @@ test_package.py
 mongo_creds.*
 *.pyc
 *.pyo
+*-firebase-adminsdk-*.json
+firebase_realtime_params.yaml
+firebase_test.py

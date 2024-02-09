@@ -30,9 +30,7 @@ class Cassandra_migrator:
         self.cassandra_adapter.insert_json_data(data=data, primary_key='id', flatten=flatten)
 
     def migrate_to_mongo(self, client_url=None, database_name=None, collection_name=None):
-        client_url = client_url or 'mongodb+srv://nisamfaras2:9JKFV21I5PvAZtgi@cluster0.sm6y67x.mongodb.net/?retryWrites=true&w=majority'
-        database_name = database_name or 'db_pytest'
-        collection_name = collection_name or 'col_pytest'
+
 
         mongo_adapter = MongoDB_CRUD(client_url=client_url, database_name=database_name, collection_name=collection_name)
         mongo_adapter.create_many(data_list=self.cassandra_data_list)

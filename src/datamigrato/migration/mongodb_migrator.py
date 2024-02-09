@@ -27,7 +27,7 @@ class Mongo_migrator:
             print(e)
 
     def populate_mongo(self, url):
-        data = self.common_utils.get_users_freeAPI(url)
+        self.mongo_data_list = data = self.common_utils.get_users_freeAPI(url)
         self.mongo_adapter.create_many(data)
 
 
