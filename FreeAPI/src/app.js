@@ -14,6 +14,7 @@ import { fileURLToPath } from "url";
 import YAML from "yaml";
 import { DB_NAME } from "./constants.js";
 import { dbInstance } from "./db/index.js";
+import morganMiddleware from "./logger/morgan.logger.js";
 import { initializeSocketIO } from "./socket/index.js";
 import { ApiError } from "./utils/ApiError.js";
 import { ApiResponse } from "./utils/ApiResponse.js";
@@ -41,7 +42,10 @@ app.set("io", io); // using set method to mount the `io` instance on the app to 
 // global middlewares
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin:
+      process.env.CORS_ORIGIN === "*"
+        ? "*" // This might give CORS error for some origins due to credentials set to true
+        : process.env.CORS_ORIGIN?.split(","), // For multiple cors origin for production. Refer https://github.com/hiteshchoudhary/apihub/blob/a846abd7a0795054f48c7eb3e71f3af36478fa96/.env.sample#L12C1-L12C12
     credentials: true,
   })
 );
@@ -86,6 +90,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
+app.use(morganMiddleware);
 // api routes
 import { errorHandler } from "./middlewares/error.middlewares.js";
 import healthcheckRouter from "./routes/healthcheck.routes.js";
@@ -99,8 +104,8 @@ import quoteRouter from "./routes/public/quote.routes.js";
 import randomjokeRouter from "./routes/public/randomjoke.routes.js";
 import randomproductRouter from "./routes/public/randomproduct.routes.js";
 import randomuserRouter from "./routes/public/randomuser.routes.js";
-import youtubeRouter from "./routes/public/youtube.routes.js";
 import stockRouter from "./routes/public/stock.routes.js";
+import youtubeRouter from "./routes/public/youtube.routes.js";
 
 // * App routes
 import userRouter from "./routes/apps/auth/user.routes.js";
