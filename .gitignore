@@ -13,3 +13,4 @@ mongo_creds.*
 *-firebase-adminsdk-*.json
 firebase_realtime_params.yaml
 firebase_test.py
+.directory
