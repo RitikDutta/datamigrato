@@ -9,71 +9,44 @@ from datamigrato.utils.common_utils import Common_utils
 
 class CassandraCRUD:
     def __init__(self, keyspace_name, table_name, secure_bundle=None, token=None):
+        """
+        Initializes the connection to a Cassandra database.
+        """
         self.common_utils = Common_utils()
         self.keyspace_name = keyspace_name
         self.table_name = table_name
 
-        # Automatically detect secure_bundle and token if not provided
+        # Detect secure_bundle and token if not provided
+        secure_bundle = secure_bundle or self._detect_secure_bundle()
+        token = token or self._detect_token()
+
+        # Load cloud configuration and credentials
         try:
-            if secure_bundle is None:
-                secure_bundle_files = glob.glob('secure-connect-cassandra-*.zip')
-                if len(secure_bundle_files) != 1:
-                    raise FileNotFoundError("Unable to automatically determine secure bundle file.")
-                secure_bundle = secure_bundle_files[0]
-
-        except FileNotFoundError as e:
-            print(e) 
-
-
-        try:            
-            if token is None:
-                credentials_files = glob.glob('*-token.json')
-                if len(credentials_files) != 1:
-                    raise FileNotFoundError("Unable to automatically determine credentials file.")
-                token = credentials_files[0]
-        except FileNotFoundError as e:
-            print(e)
-        try:
-            
-            # Load cloud configuration and credentials
             cloud_config = {'secure_connect_bundle': secure_bundle}
             with open(token) as f:
                 secrets = json.load(f)
 
-            # Setup authentication
+            # Setup authentication and connect to Cassandra
             auth_provider = PlainTextAuthProvider(secrets["clientId"], secrets["secret"])
             cluster = Cluster(cloud=cloud_config, auth_provider=auth_provider)
-            self.session = cluster.connect()
-
-            # Connect to the specified keyspace
-            self.session.set_keyspace(keyspace_name)
+            self.session = cluster.connect(self.keyspace_name)
             print("Connected to Cassandra")
-        except TypeError as e:
-            print(f"Check your creds file: \n{e}")
         except Exception as e:
             print(f"Failed to connect to Cassandra: {e}")
 
-    def create_table(self):
-        try:
-            create_table_query = f"""
-            CREATE TABLE IF NOT EXISTS {self.table_name} (
-                id int PRIMARY KEY,
-                name text
-            );
-            """
-            self.session.execute(create_table_query)
-            print("Table created successfully")
-        except Exception as e:
-            print(f"An error occurred during table creation: {e}")
+    def _detect_secure_bundle(self):
+        """Detects and returns the path to the secure bundle."""
+        secure_bundle_files = glob.glob('secure-connect-cassandra-*.zip')
+        if len(secure_bundle_files) != 1:
+            raise FileNotFoundError("Unable to automatically determine secure bundle file.")
+        return secure_bundle_files[0]
 
-    def list_tables(self):
-        try:
-            result = self.session.execute(f"SELECT table_name FROM system_schema.tables WHERE keyspace_name = '{self.keyspace_name}';")
-            for row in result:
-                print(row.table_name)
-        except Exception as e:
-            print(f"An error occurred: {e}")
-
+    def _detect_token(self):
+        """Detects and returns the path to the token file."""
+        credentials_files = glob.glob('*-token.json')
+        if len(credentials_files) != 1:
+            raise FileNotFoundError("Unable to automatically determine credentials file.")
+        return credentials_files[0]
 
 
     def create(self, query, parameters=None):
@@ -82,12 +55,6 @@ class CassandraCRUD:
             print("Data inserted successfully")
         except Exception as e:
             print(f"An error occurred during insertion: {e}")
-
-    def read(self, query, parameters=None):
-        try:
-            return self.session.execute(query, parameters).one()
-        except Exception as e:
-            print(f"An error occurred during reading: {e}")
 
     def read_all(self):
         try:
@@ -105,27 +72,12 @@ class CassandraCRUD:
             print(f"An error occurred during reading all data: {e}")
             return []
 
-    def update(self, query, parameters=None):
-        try:
-            self.session.execute(query, parameters)
-            print("Data updated successfully")
-        except Exception as e:
-            print(f"An error occurred during updating: {e}")
-
-    def delete(self, query, parameters=None):
-        try:
-            self.session.execute(query, parameters)
-            print("Data deleted successfully")
-        except Exception as e:
-            print(f"An error occurred during deletion: {e}")
-
-
     def show(self):
         query = f"SELECT * FROM {self.keyspace_name}.{self.table_name};"
         df = pd.DataFrame(list(self.session.execute(query)))
         print(tabulate(df, headers='keys', tablefmt='fancy_grid'))
 
-    def delete_all_data(self):
+    def delete_records(self):
         try:
             delete_query = f"TRUNCATE {self.keyspace_name}.{self.table_name};"
             self.session.execute(delete_query)
