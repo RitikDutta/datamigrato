@@ -3,7 +3,7 @@ from datamigrato.adapters.mongodb_adapter import MongoDB_CRUD
 from datamigrato.adapters.cassandra_adapter import CassandraCRUD
 
 class Mongo_migrator:
-    def __init__(self, cred_file=None, client_url=None, database_name=None, collection_name=None):
+    def __init__(self, parameter_file=None, client_url=None, database_name=None, collection_name=None):
         self.common_utils = Common_utils()
         try:
             client_url = client_url
@@ -11,10 +11,10 @@ class Mongo_migrator:
             collection_name = collection_name
 
             if not all([client_url, database_name, collection_name]):
-                creds = self.common_utils.read_credentials(cred_file)
-                client_url = creds.get('client_url')
-                database_name = creds.get('database_name')
-                collection_name = creds.get('collection_name')
+                parameters = self.common_utils.read_parameters(parameter_file)
+                client_url = parameters.get('client_url')
+                database_name = parameters.get('database_name')
+                collection_name = parameters.get('collection_name')
 
             if not all([client_url, database_name, collection_name]):
                 raise ValueError("Missing required database parameters")

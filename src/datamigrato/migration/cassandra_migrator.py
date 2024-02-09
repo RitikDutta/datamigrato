@@ -3,7 +3,7 @@ from datamigrato.adapters.mongodb_adapter import MongoDB_CRUD
 from datamigrato.adapters.cassandra_adapter import CassandraCRUD
 
 class Cassandra_migrator:
-    def __init__(self, cred_file=None, keyspace_name=None, table_name=None, secure_bundle=None, token=None):
+    def __init__(self, parameter_file=None, keyspace_name=None, table_name=None, secure_bundle=None, token=None):
         self.common_utils = Common_utils()
         try:
             keyspace_name=keyspace_name
@@ -11,9 +11,9 @@ class Cassandra_migrator:
             secure_bundle=secure_bundle
         
             if not all([keyspace_name, table_name]):
-                creds = self.common_utils.read_credentials(cred_file)
-                keyspace_name = creds.get('keyspace_name')
-                table_name = creds.get('table_name')
+                parameters = self.common_utils.read_parameters(parameter_file)
+                keyspace_name = parameters.get('keyspace_name')
+                table_name = parameters.get('table_name')
 
             if not all([keyspace_name, table_name]):
                 raise ValueError("Missing required database parameters")

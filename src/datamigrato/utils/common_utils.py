@@ -20,13 +20,13 @@ class Common_utils:
                     items.append((new_key, v))
             return dict(items)
 
-    def read_credentials(self, cred_file='creds'):
+    def read_parameters(self, parameter_file='creds'):
         client_url, database_name, collection_name = None, None, None
         try:
-            with open(cred_file, 'r') as file:
+            with open(parameter_file, 'r') as file:
                 creds = yaml.safe_load(file)
         except FileNotFoundError:
-            print(f"Credentials file {cred_file} not found.")
+            print(f"Credentials file {parameter_file} not found.")
         except yaml.YAMLError as e:
             print(f"An error occurred while parsing the YAML credentials file: {e}")
         except Exception as e:

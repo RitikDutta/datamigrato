@@ -4,16 +4,16 @@ from datamigrato.adapters.cassandra_adapter import CassandraCRUD
 from datamigrato.adapters.firebase_realtime_adapter import FirebaseRealtimeDatabaseCRUD
 
 class Firebase_realtime_migrator:
-    def __init__(self, cred_file=None, refrence_url=None, root_node=None, token=None):
+    def __init__(self, parameter_file=None, refrence_url=None, root_node=None, token=None):
         self.common_utils = Common_utils()
         try:
             refrence_url = refrence_url
             root_node = root_node
 
             if not all([refrence_url, root_node]):
-                creds = self.common_utils.read_credentials(cred_file)
-                refrence_url = creds.get('refrence_url')
-                root_node = creds.get('root_node')
+                parameters = self.common_utils.read_parameters(parameter_file)
+                refrence_url = parameters.get('refrence_url')
+                root_node = parameters.get('root_node')
             
             if not all([refrence_url, root_node]):
                 raise ValueError("Missing required database parameters")
@@ -21,7 +21,6 @@ class Firebase_realtime_migrator:
             self.firebase_realtime_adapter = FirebaseRealtimeDatabaseCRUD(refrence_url, root_node, token)
             
             self.firebase_realtime_data_list = self.firebase_realtime_adapter.read_all()
-            print(self.firebase_realtime_data_list)
         except Exception as e:
             print(e)
 
