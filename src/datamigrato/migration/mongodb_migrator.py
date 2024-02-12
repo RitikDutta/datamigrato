@@ -4,24 +4,14 @@ from datamigrato.adapters.cassandra_adapter import CassandraCRUD
 from datamigrato.adapters.firebase_realtime_adapter import FirebaseRealtimeDatabaseCRUD
 
 class Mongo_migrator:
-    def __init__(self, parameter_file=None, client_url=None, database_name=None, collection_name=None):
+    def __init__(self, database_name, collection_name, client_url=None, cred_file=None):
         self.common_utils = Common_utils()
         try:
-            client_url = client_url
-            database_name = database_name
-            collection_name = collection_name
-
-            if not all([client_url, database_name, collection_name]):
-                parameters = self.common_utils.read_parameters(parameter_file)
-                client_url = parameters.get('client_url')
-                database_name = parameters.get('database_name')
-                collection_name = parameters.get('collection_name')
-
-            if not all([client_url, database_name, collection_name]):
+            client_url = client_url or self.common_utils.read_creds(cred_file).get('client_url')
+            if not client_url:
                 raise ValueError("Missing required database parameters")
 
             self.mongo_adapter = MongoDB_CRUD(client_url, database_name, collection_name)
-        
             self.mongo_data_list = self.mongo_adapter.read_all()
 
         except Exception as e:
@@ -36,7 +26,7 @@ class Mongo_migrator:
         cassandra_adapter.insert_json_data(data = self.mongo_data_list, primary_key=primary_key, flatten=flatten)
 
     def migrate_to_firebase_realtime(self, refrence_url, root_node, token=None):
-        pass
+        firebase_realtime_adapter = FirebaseRealtimeDatabaseCRUD(refrence_url=refrence_url, root_node=root_node, token=token)
 
     def migrate_to_firestore(self):
         pass
