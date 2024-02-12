@@ -1,24 +1,32 @@
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, PyMongoError
+from datamigrato.utils.common_utils import Common_utils
 
 class MongoDB_CRUD:
     """Handles CRUD operations for a MongoDB Database."""
 
-    def __init__(self, client_url, database_name, collection_name):
+    def __init__(self, client_url, database_name, collection_name, cred_file=None):
         """Initializes MongoDB client and connects to the specified collection."""
+        self.common_utils = Common_utils()
+
+        # get client_url from file if not provided
+        client_url = client_url or self._get_client_url(cred_file)
+
+        # Load cloud configuration and credentials
         try:
             self.client = MongoClient(client_url)
             self.client.server_info()  # Validates the connection
             self.db = self.client[database_name]
             self.collection = self.db[collection_name]
             print("Connected to MongoDB")
-            self.is_connected = True
         except ConnectionFailure:
             print("Failed to connect to MongoDB. Check IP and credentials.")
-            self.is_connected = False
         except PyMongoError as e:
             print(f"MongoDB connection error: {e}")
-            self.is_connected = False
+
+    def _get_client_url(self, cred_file):
+        creds = self.common_utils.read_creds(cred_file)
+        return creds.get('client_url')
 
     def create_many(self, data_list):
         """Inserts multiple documents into the collection."""
