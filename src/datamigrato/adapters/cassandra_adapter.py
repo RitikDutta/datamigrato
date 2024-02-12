@@ -52,7 +52,6 @@ class CassandraCRUD:
     def create(self, query, parameters=None):
         try:
             self.session.execute(query, parameters)
-            print("Data inserted successfully")
         except Exception as e:
             print(f"An error occurred during insertion: {e}")
 
@@ -108,16 +107,18 @@ class CassandraCRUD:
         """
         try:
             self.session.execute(create_table_query)
-            print(f"Table {self.table_name} created successfully with dynamic schema.")
         except Exception as e:
             print(f"An error occurred during dynamic table creation: {e}")
 
     def insert_json_data(self, data, primary_key='id', flatten=False):
         """Inserts JSON data into the Cassandra table, creating the table dynamically if needed."""
+        inserted_count = 0
         try:
             table_created = self._create_table_if_needed(data, primary_key)
             for data_instance in data:
                 self._process_and_insert_data_instance(data_instance, primary_key, flatten, table_created)
+                inserted_count += 1
+            print(f"Inserted {inserted_count} records successfully.")
         except TypeError as e:
             print(f"Error processing data: {e}")
         except ValueError as e:
