@@ -21,7 +21,7 @@ def test_mongo(client_url=client_url):
 
     database_name = 'db_pytest'
     collection_name = 'col_pytest'
-    client_url = client_url
+    client_url = "mongodb+srv://nisamfaras2:9JKFV21I5PvAZtgi@cluster0.sm6y67x.mongodb.net/?retryWrites=true&w=majority"
     cred_file = None
 
     #cassandra creds
