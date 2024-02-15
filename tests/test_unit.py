@@ -1,13 +1,7 @@
 import requests
-import pytest
 from unit_tests import test_api_response
 from unit_tests import test_mongodb_migrator
-
-
-@pytest.fixture(scope="session")
-def client_url(pytestconfig):
-    return pytestconfig.getoption("client_url")
-
+import os
 
 def test_api():
     url = 'http://localhost:8080/api/v1/healthcheck'
@@ -15,13 +9,15 @@ def test_api():
     test_api_response.Test(url)
 
 def test_mongo(client_url=client_url):
+    os.environ['MONGO_CLIENT_URL']
+
     #mongo creds
     url = 'http://localhost:8080/api/v1/public/randomusers?page=1&limit=10'
     # url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/public/randomusers?page=1&limit=10'
 
     database_name = 'db_pytest'
     collection_name = 'col_pytest'
-    client_url = client_url
+    client_url = os.environ['MONGO_CLIENT_URL']
     cred_file = None
 
     #cassandra creds
