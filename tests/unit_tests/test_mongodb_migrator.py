@@ -27,8 +27,6 @@ class Test:
 
 
 	def populate_mongo(self, url, database_name, collection_name, client_url, cred_file):
-		url = 'http://localhost:8080/api/v1/public/randomusers?page=1&limit=10'
-		# url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/public/randomusers?page=1&limit=10'
 		self.handler.populate_mongo(url=url, client_url=client_url, database_name=database_name, collection_name=collection_name, cred_file=cred_file)
 		assert True
 	
