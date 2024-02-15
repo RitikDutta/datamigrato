@@ -14,14 +14,14 @@ def test_api():
     # url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/healthcheck'
     test_api_response.Test(url)
 
-def test_mongo():
+def test_mongo(client_url=client_url):
     #mongo creds
     url = 'http://localhost:8080/api/v1/public/randomusers?page=1&limit=10'
     # url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/public/randomusers?page=1&limit=10'
 
     database_name = 'db_pytest'
     collection_name = 'col_pytest'
-    client_url = "mongodb+srv://nisamfaras2:9JKFV21I5PvAZtgi@cluster0.sm6y67x.mongodb.net/?retryWrites=true&w=majority"
+    client_url = client_url
     cred_file = None
 
     #cassandra creds
