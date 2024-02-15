@@ -35,7 +35,5 @@ def test_mongo(client_url=client_url):
                                client_url=client_url,
                                keyspace_name=keyspace_name,
                                table_name=table_name,
-                               primary_key="id",
-                               secure_bundle=secure_bundle,
-                               token=token
+                               primary_key="id"
                                )
