@@ -5,7 +5,7 @@ from datamigrato.utils.common_utils import Common_utils
 class MongoDB_CRUD:
     """Handles CRUD operations for a MongoDB Database."""
 
-    def __init__(self, client_url, database_name, collection_name, cred_file=None):
+    def __init__(self, database_name, collection_name, client_url=None, cred_file=None):
         """Initializes MongoDB client and connects to the specified collection."""
         self.common_utils = Common_utils()
 

@@ -59,8 +59,11 @@ jobs:
 
 
     - name: Run Pytest
+      env:
+        MONGO_CLIENT_URL: ${{ secrets.MONGO_CLIENT_URL }}
+
       run: |
-        pytest tests/test_unit.py
+        pytest tests/test_unit.py 
 
     - name: Stop Docker Container
       if: always()  # Ensures this step runs even if previous steps fail
