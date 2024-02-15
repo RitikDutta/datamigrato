@@ -5,3 +5,4 @@ pytz==2023.3.post1
 pyyaml==6.0.1
 pandas
 astrapy
+firebase-admin==6.4.0
