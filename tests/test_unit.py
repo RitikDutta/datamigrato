@@ -10,18 +10,19 @@ def client_url(pytestconfig):
 
 
 def test_api():
-    # url = 'http://localhost:8080/api/v1/healthcheck'
-    url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/healthcheck'
+    url = 'http://localhost:8080/api/v1/healthcheck'
+    # url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/healthcheck'
     test_api_response.Test(url)
 
 def test_mongo(client_url=client_url):
     #mongo creds
-    url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/healthcheck'
+    url = 'https://localhost:8080/api/v1/healthcheck/api/v1/public/randomusers?page=1&limit=10'
+    # url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/healthcheck'
 
     database_name = 'db_pytest'
     collection_name = 'col_pytest'
-    client_url = "mongodb+srv://nisamfaras2:9JKFV21I5PvAZtgi@cluster0.sm6y67x.mongodb.net/?retryWrites=true&w=majority"
-    cred_file = client_url
+    client_url = client_url
+    cred_file = cred_file
 
     #cassandra creds
     keyspace_name = "data_migrato_key"
