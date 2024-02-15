@@ -14,10 +14,10 @@ def test_api():
     # url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/healthcheck'
     test_api_response.Test(url)
 
-def test_mongo(client_url=client_url):
+def test_mongo():
     #mongo creds
-    url = 'https://localhost:8080/api/v1/public/randomusers?page=1&limit=10'
-    # url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/healthcheck'
+    url = 'http://localhost:8080/api/v1/public/randomusers?page=1&limit=10'
+    # url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/public/randomusers?page=1&limit=10'
 
     database_name = 'db_pytest'
     collection_name = 'col_pytest'
@@ -37,3 +37,6 @@ def test_mongo(client_url=client_url):
                                table_name=table_name,
                                primary_key="id"
                                )
+
+test_api()
+test_mongo()
