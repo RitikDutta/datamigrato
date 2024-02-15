@@ -8,7 +8,7 @@ def test_api():
     # url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/healthcheck'
     test_api_response.Test(url)
 
-def test_mongo(client_url=client_url):
+def test_mongo():
     os.environ['MONGO_CLIENT_URL']
 
     #mongo creds
@@ -33,6 +33,3 @@ def test_mongo(client_url=client_url):
                                table_name=table_name,
                                primary_key="id"
                                )
-
-test_api()
-test_mongo()
