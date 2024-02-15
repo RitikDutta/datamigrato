@@ -21,7 +21,7 @@ def test_mongo(client_url=client_url):
     database_name = 'db_pytest'
     collection_name = 'col_pytest'
     client_url = "mongodb+srv://nisamfaras2:9JKFV21I5PvAZtgi@cluster0.sm6y67x.mongodb.net/?retryWrites=true&w=majority"
-    cred_file = "/home/codered/mystuff/Packages/datamigrato/mongo_creds.yaml"
+    cred_file = client_url
 
     #cassandra creds
     keyspace_name = "data_migrato_key"
@@ -31,7 +31,7 @@ def test_mongo(client_url=client_url):
     test_mongodb_migrator.Test(url=url,
                                database_name=database_name,
                                collection_name=collection_name,
-                               cred_file=cred_file,
+                               client_url=client_url,
                                keyspace_name=keyspace_name,
                                table_name=table_name,
                                primary_key="id",
