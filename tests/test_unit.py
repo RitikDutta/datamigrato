@@ -22,7 +22,7 @@ def test_mongo(client_url=client_url):
     database_name = 'db_pytest'
     collection_name = 'col_pytest'
     client_url = client_url
-    cred_file = cred_file
+    cred_file = None
 
     #cassandra creds
     keyspace_name = "data_migrato_key"
