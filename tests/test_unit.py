@@ -2,11 +2,11 @@ import requests
 import pytest
 from unit_tests import test_api_response
 from unit_tests import test_mongodb_migrator
-import os
+
 
 @pytest.fixture(scope="session")
-def client_url():
-    return os.environ.get('MONGO_CLIENT_URL')
+def client_url(pytestconfig):
+    return pytestconfig.getoption("client_url")
 
 
 def test_api():
@@ -14,9 +14,8 @@ def test_api():
     url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/healthcheck'
     test_api_response.Test(url)
 
-def test_mongo(client_url):
+def test_mongo(client_url=client_url):
     #mongo creds
-    assert client_url is not None
     url = 'https://congenial-space-halibut-p7vr5gpwxqgh7qjx-8080.app.github.dev/api/v1/healthcheck'
 
     database_name = 'db_pytest'
