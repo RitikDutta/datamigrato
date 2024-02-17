@@ -4,7 +4,7 @@ class Datamigrato:
     def __init__(self):
         print("Datamigrato class initialized")
 
-    def populate_mongo(self, url, database_name=None, collection_name=None, client_url=None, cred_file=None):
+    def populate_mongo(self, url, database_name, collection_name, client_url=None, cred_file=None):
         migrator = Mongo_migrator(database_name=database_name, collection_name=collection_name, client_url=client_url, cred_file=cred_file)
         migrator.populate_mongo(url)
 

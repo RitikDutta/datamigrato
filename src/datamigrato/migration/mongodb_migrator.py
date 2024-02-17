@@ -4,7 +4,7 @@ from datamigrato.adapters.cassandra_adapter import CassandraCRUD
 from datamigrato.adapters.firebase_realtime_adapter import FirebaseRealtimeDatabaseCRUD
 
 class Mongo_migrator:
-    def __init__(self, database_name, collection_name, client_url=None, cred_file=None):
+    def __init__(self, database_name, collection_name, client_url=None):
         self.common_utils = Common_utils()
         try:
             client_url = client_url or self.common_utils.read_creds(cred_file).get('client_url')

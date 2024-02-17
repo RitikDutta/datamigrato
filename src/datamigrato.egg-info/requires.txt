@@ -1,4 +1,12 @@
 ensure==1.0.2
+pymongo==4.6.1
+cassandra-driver==3.29.0
+tabulate==0.9.0
+pytz==2023.3.post1
+pyyaml==6.0.1
+pandas
+astrapy
+firebase-admin==6.4.0
 
 [testing]
 pytest>=7.1.3
