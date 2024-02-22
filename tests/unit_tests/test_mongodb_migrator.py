@@ -20,7 +20,7 @@ class Test:
 
 		self.handler = Datamigrato()
 		self.populate_mongo(url, database_name, collection_name, client_url, cred_file)
-		self.mongo_to_cassandra(database_name=self.database_name, collection_name=self.collection_name, client_url=self.client_url, cred_file=self.cred_file, keyspace_name=self.keyspace_name, table_name=self.table_name, primary_key=self.primary_key, secure_bundle=self.secure_bundle, cassandra_token=self.token, flatten=flatten)
+		self.mongo_to_cassandra(database_name=self.database_name, collection_name=self.collection_name, client_url=self.client_url, cred_file=self.cred_file, keyspace_name=self.keyspace_name, table_name=self.table_name, primary_key=self.primary_key, secure_bundle=self.secure_bundle, cassandra_token=self.cassandra_token, flatten=flatten)
 
 	def getcreds(self):
 		creds = 'creds'
