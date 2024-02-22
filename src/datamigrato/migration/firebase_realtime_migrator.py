@@ -12,14 +12,14 @@ class Firebase_realtime_migrator:
         except Exception as e:
             print(e)
 
-    def populate_firebase_realtime(self, url):
+    def populate_firebase_realtime(self, url, group_by_field=None):
         self.firebase_realtime_data_list = data = self.common_utils.get_users_freeAPI(url)
-        self.firebase_realtime_adapter.insert_json_data(data)
+        self.firebase_realtime_adapter.insert_json_data(data, group_by_field=group_by_field)
         
-    def migrate_to_mongo(self, client_url=None, database_name=None, collection_name=None):        
-        mongo_adapter = MongoDB_CRUD(client_url=client_url, database_name=database_name, collection_name=collection_name)
+    def migrate_to_mongo(self, database_name, collection_name, client_url=None, cred_file=None):        
+        mongo_adapter = MongoDB_CRUD(database_name=database_name, collection_name=collection_name, client_url=client_url, cred_file=cred_file)
         mongo_adapter.create_many(data_list=self.firebase_realtime_data_list)        
 
-    def migrate_to_cassandra(self, primary_key, keyspace_name=None, table_name=None, secure_bundle=None, token=None, flatten=False):
+    def migrate_to_cassandra(self, keyspace_name, table_name, primary_key, secure_bundle=None, token=None, flatten=False):
         cassandra_adapter = CassandraCRUD(keyspace_name=keyspace_name, table_name=table_name, secure_bundle=secure_bundle, token=token)
         cassandra_adapter.insert_json_data(data = self.firebase_realtime_data_list, primary_key=primary_key, flatten=flatten)
