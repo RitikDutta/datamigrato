@@ -31,5 +31,5 @@ class Test:
 		assert True
 	
 	def mongo_to_cassandra(self, database_name, collection_name, keyspace_name, table_name, primary_key='id', flatten=False, client_url=None, cred_file=None, secure_bundle=None, cassandra_token=None):
-		self.handler.mongo_to_cassandra(primary_key=primary_key, client_url=self.client_url, cred_file=cred_file, database_name=self.database_name, collection_name=self.collection_name, keyspace_name=keyspace_name, table_name=table_name, secure_bundle=secure_bundle, token=cassandra_token, flatten=flatten)
+		self.handler.mongo_to_cassandra(primary_key=primary_key, client_url=self.client_url, cred_file=cred_file, database_name=self.database_name, collection_name=self.collection_name, keyspace_name=keyspace_name, table_name=table_name, secure_bundle=secure_bundle, cassandra_token=cassandra_token, flatten=flatten)
 		assert True
