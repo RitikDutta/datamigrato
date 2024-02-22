@@ -33,6 +33,7 @@ class CassandraCRUD:
             print("Connected to Cassandra")
         except Exception as e:
             print(f"Failed to connect to Cassandra: {e}")
+            raise SystemExit
 
     def _detect_secure_bundle(self):
         """Detects and returns the path to the secure bundle."""
@@ -68,7 +69,6 @@ class CassandraCRUD:
 
             return records
         except Exception as e:
-            print(f"An error occurred during reading all data: {e}")
             return []
 
     def show(self):
@@ -109,6 +109,7 @@ class CassandraCRUD:
             self.session.execute(create_table_query)
         except Exception as e:
             print(f"An error occurred during dynamic table creation: {e}")
+            
 
     def insert_json_data(self, data, primary_key='id', flatten=False):
         """Inserts JSON data into the Cassandra table, creating the table dynamically if needed."""

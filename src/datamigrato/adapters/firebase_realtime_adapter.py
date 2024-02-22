@@ -4,16 +4,22 @@ from firebase_admin import credentials, db, _apps
 
 class FirebaseRealtimeDatabaseCRUD:
     def __init__(self, refrence_url, root_node, token=None):
+        
         self.root_node = root_node
         
         token = token or self._detect_token()
         self.cred = credentials.Certificate(token)
         self.app = None
 
-        if not _apps:
-            self.app = firebase_admin.initialize_app(self.cred, {'databaseURL': refrence_url})
-        self.root_node_ref = db.reference(self.root_node)
-
+        try:
+            if not _apps:
+                self.app = firebase_admin.initialize_app(self.cred, {'databaseURL': refrence_url})
+            self.root_node_ref = db.reference(self.root_node)
+            print("Connected to Firebase Realtime")
+            self.read_all()
+        except Exception as e:
+            print(f"Failed to connect to Firebase Realtime: {e}")
+        
     def _detect_token(self):
         """Detects and returns the path to the token file."""
         credentials_files = glob.glob('*-firebase-adminsdk-*.json')

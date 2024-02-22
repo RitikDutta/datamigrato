@@ -1,6 +1,7 @@
 from datamigrato.utils.common_utils import Common_utils
 from datamigrato.adapters.mongodb_adapter import MongoDB_CRUD
 from datamigrato.adapters.cassandra_adapter import CassandraCRUD
+from datamigrato.adapters.firebase_realtime_adapter import FirebaseRealtimeDatabaseCRUD
 
 class Cassandra_migrator:
     def __init__(self, keyspace_name, table_name, secure_bundle=None, token=None):
@@ -11,17 +12,25 @@ class Cassandra_migrator:
 
         except Exception as e:
             print(e)
+        except:
+            print("failed")
 
-    def populate_cassandra(self, url, flatten=False):
+    def populate_cassandra(self, url, primary_key, flatten=False):
         self.cassandra_data_list = data = self.common_utils.get_users_freeAPI(url)
-        self.cassandra_adapter.insert_json_data(data=data, primary_key='id', flatten=flatten)
+        self.cassandra_adapter.insert_json_data(data=data, primary_key=primary_key, flatten=flatten)
 
     def migrate_to_mongo(self, database_name=None, collection_name=None, client_url=None, cred_file=None):
         mongo_adapter = MongoDB_CRUD(database_name=database_name, collection_name=collection_name, client_url=client_url, cred_file=cred_file)
         mongo_adapter.create_many(data_list=self.cassandra_data_list)
     
-    def migrate_to_firebase(self, refrence_url, root_node, token=None):
-        pass
+    def migrate_to_firebase_realtime(self, refrence_url, root_node, group_by=None, token=None):
+        try:
+            firebase_realtime_adapter = FirebaseRealtimeDatabaseCRUD(refrence_url=refrence_url, root_node=root_node, token=token)
+            firebase_realtime_adapter.insert_json_data(data=self.cassandra_data_list, group_by_field=group_by)
+        except Exception as e:
+            print(e)
+        except:
+            print("Execution stopped")
 
     def migrate_to_firestore(self):
         pass
