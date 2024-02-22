@@ -2,14 +2,14 @@ from datamigrato.handler.datamigrato_handler import Datamigrato
 
 class Test:
 	"""docstring for test_mongo_migrator"""
-	def __init__(self, url, database_name, collection_name, keyspace_name, table_name, primary_key, flatten=False, client_url=None, cred_file=None, secure_bundle=None, token=None):
+	def __init__(self, url, database_name, collection_name, keyspace_name, table_name, primary_key, flatten=False, client_url=None, cred_file=None, secure_bundle=None, cassandra_token=None):
 		
 		#cassandra params
 		self.keyspace_name = keyspace_name
 		self.table_name = table_name
 		self.primary_key = primary_key
 		self.secure_bundle = secure_bundle
-		self.token = token
+		self.cassandra_token = cassandra_token
 
 		#mongo params
 		self.url = url
