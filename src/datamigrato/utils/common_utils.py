@@ -39,3 +39,14 @@ class Common_utils:
         except:
             print("Failed to fetch data from API")
             return []
+        
+    def convert_bson_to_json(self, bson_data):
+        # Convert BSON back to JSON (mostly used to convert mongo data to original json format)
+        converted_data = []
+        for item in bson_data:
+            # Convert ObjectId to string (if needed) and remove the '_id' field
+            if '_id' in item:
+                item['id'] = str(item['_id'])  # Convert ObjectId to string and assign to 'id'
+                del item['_id']  # Remove the '_id' field
+            converted_data.append(item)
+        return converted_data
