@@ -1,16 +1,16 @@
-ensure==1.0.2
-pymongo==4.6.1
+astrapy
 cassandra-driver==3.29.0
-tabulate==0.9.0
+ensure==1.0.2
+firebase-admin==6.4.0
+pandas
+pymongo==4.6.1
 pytz==2023.3.post1
 pyyaml==6.0.1
-pandas
-astrapy
-firebase-admin==6.4.0
+tabulate==0.9.0
 
 [testing]
-pytest>=7.1.3
-mypy>=0.971
-flake8>=5.0.4
-tox>=3.25.1
 black>=22.8.0
+flake8>=5.0.4
+mypy>=0.971
+pytest>=7.1.3
+tox>=3.25.1
