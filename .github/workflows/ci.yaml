@@ -39,7 +39,7 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
         
     - name: Pull Docker image from Docker Hub
-        run: docker pull ritikdutta/freeapi_forked:latest
+      run: docker pull ritikdutta/freeapi_forked:latest
       
       # Assign a custom name to the container for easy reference
     - name: Run Docker container
