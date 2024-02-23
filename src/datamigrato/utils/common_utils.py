@@ -3,7 +3,8 @@ import requests
 import json
 
 class Common_utils:
-    """docstring for Common_utils"""
+    """A utility class for common data operations"""
+
     def __init__(self):
         pass
         
@@ -21,6 +22,8 @@ class Common_utils:
             return dict(items)
 
     def read_creds(self, cred_file='creds'):
+        """Reads credentials from a YAML file"""
+
         try:
             with open(cred_file, 'r') as file:
                 creds = yaml.safe_load(file)
@@ -33,6 +36,8 @@ class Common_utils:
         return creds
 
     def get_users_freeAPI(self, url):
+        """Fetches data from a specified API URL"""
+
         try:
             data = requests.get(url)
             return data.json()['data']['data']
@@ -41,7 +46,8 @@ class Common_utils:
             return []
         
     def convert_bson_to_json(self, bson_data):
-        # Convert BSON back to JSON (mostly used to convert mongo data to original json format)
+        """Convert BSON back to JSON (mostly used to convert mongo data to original json format)"""
+        
         converted_data = []
         for item in bson_data:
             # Convert ObjectId to string (if needed) and remove the '_id' field

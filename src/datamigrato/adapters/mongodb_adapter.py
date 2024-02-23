@@ -3,10 +3,18 @@ from pymongo.errors import ConnectionFailure, PyMongoError
 from datamigrato.utils.common_utils import Common_utils
 
 class MongoDB_CRUD:
-    """Handles CRUD operations for a MongoDB Database."""
+    """A class to handle CRUD operations for MongoDB collections."""
 
     def __init__(self, database_name, collection_name, client_url=None, cred_file=None):
-        """Initializes MongoDB client and connects to the specified collection."""
+        """
+        Initialize a connection to a MongoDB collection.
+
+        Args:
+            database_name (str): The name of the MongoDB database.
+            collection_name (str): The name of the MongoDB collection.
+            client_url (str, optional): The MongoDB connection URL. Defaults to None.
+            cred_file (str, optional): Path to the credentials file if client_url is not provided. Defaults to None.
+        """
         self.common_utils = Common_utils()
 
         # get client_url from file if not provided
@@ -25,6 +33,7 @@ class MongoDB_CRUD:
             print(f"MongoDB connection error: {e}")
 
     def _get_client_url(self, cred_file):
+        """Retrieve client URL from credentials file."""
         creds = self.common_utils.read_creds(cred_file)
         return creds.get('client_url')
 

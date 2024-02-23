@@ -3,7 +3,17 @@ import firebase_admin
 from firebase_admin import credentials, db, _apps
 
 class FirebaseRealtimeDatabaseCRUD:
+    """A class to handle CRUD operations for Firebase Realtime Database."""
+
     def __init__(self, refrence_url, root_node, token=None):
+        """
+        Initialize a connection to a Firebase Realtime Database node.
+
+        Args:
+            reference_url (str): The URL to the Firebase Realtime Database.
+            root_node (str): The root node of the database (collection name).
+            token (str, optional): Path to the Firebase admin SDK token. Defaults to None.
+        """
         
         self.root_node = root_node
         
@@ -21,39 +31,45 @@ class FirebaseRealtimeDatabaseCRUD:
             print(f"Failed to connect to Firebase Realtime: {e}")
         
     def _detect_token(self):
-        """Detects and returns the path to the token file."""
+        """Automatically detects and returns the path to the Firebase admin SDK token."""
+
         credentials_files = glob.glob('*-firebase-adminsdk-*.json')
         if len(credentials_files) != 1:
             raise FileNotFoundError("Unable to automatically determine credentials file.")
         return credentials_files[0]
     
     def create(self, data):
+        """Inserts data at the specified root node."""    
+
         self.root_node_ref.set(data)
         print("Data created at root node")
 
     def read_all(self):
+        """Reads and returns all data from the specified root node."""
+
         return self.root_node_ref.get()
 
     def delete_records(self):
+        """Deletes all records from the specified root node."""
+        
         self.root_node_ref.set({})
         print("All records deleted from root node")
 
     def delete_node(self):
+        """Deletes the specified root node from the database."""
+
         self.root_node_ref.delete()
         print("Node deleted from root node")
 
     def delete_database(self):
+        """Deletes the entire Firebase Realtime Database."""
+
         db.reference('/').delete()
         print("Database deleted")
 
     def insert_json_data(self, data, group_by_field=None):
-        """
-        Inserts multiple JSON records into the database, optionally grouped by a specified field.
+        """Inserts multiple JSON records into the database, optionally grouped by a specified field."""
 
-        Args:
-            data (list): A list of dictionaries where each dictionary represents a record.
-            group_by_field (str, optional): The field name to group the data by. If not provided, data is not grouped.
-        """
         if not isinstance(data, list) or not all(isinstance(item, dict) for item in data):
             print("Data should be a list of dictionaries.")
             return
@@ -71,16 +87,8 @@ class FirebaseRealtimeDatabaseCRUD:
         print(f"Inserted {len(formatted_data)} records successfully.")
 
     def _group_data_by_field(self, data, group_by_field):
-        """
-        Groups data by the specified field.
+        """Groups data by the specified field."""
 
-        Args:
-            data (list): A list of dictionaries where each dictionary represents a record.
-            group_by_field (str): The field name to group the data by.
-
-        Returns:
-            dict: Grouped data.
-        """
         grouped_data = {}
         for item in data:
             group_key = str(item.pop(group_by_field, None))  # Extract and remove the group_by_field

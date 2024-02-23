@@ -8,9 +8,17 @@ from datamigrato.utils.common_utils import Common_utils
 
 
 class CassandraCRUD:
+    """A class to handle CRUD operations for Cassandra tables."""
+
     def __init__(self, keyspace_name, table_name, secure_bundle=None, token=None):
         """
-        Initializes the connection to a Cassandra database.
+        Initialize a connection to a Cassandra table.
+
+        Args:
+            keyspace_name (str): The name of the Cassandra keyspace.
+            table_name (str): The name of the Cassandra table.
+            secure_bundle (str, optional): Path to the secure connect bundle for cloud-based clusters. Defaults to None.
+            token (str, optional): Path to the token file for authentication. Defaults to None.
         """
         self.common_utils = Common_utils()
         self.keyspace_name = keyspace_name
@@ -51,12 +59,15 @@ class CassandraCRUD:
 
 
     def create(self, query, parameters=None):
+        """Inserts record into the table."""
+
         try:
             self.session.execute(query, parameters)
         except Exception as e:
             print(f"An error occurred during insertion: {e}")
 
     def read_all(self):
+        """Read and return all records from the table."""
         try:
             query = f"SELECT * FROM {self.keyspace_name}.{self.table_name};"
             result_set = self.session.execute(query)
@@ -71,12 +82,8 @@ class CassandraCRUD:
         except Exception as e:
             return []
 
-    def show(self):
-        query = f"SELECT * FROM {self.keyspace_name}.{self.table_name};"
-        df = pd.DataFrame(list(self.session.execute(query)))
-        print(tabulate(df, headers='keys', tablefmt='fancy_grid'))
-
     def delete_records(self):
+        """Delete all records from the table."""
         try:
             delete_query = f"TRUNCATE {self.keyspace_name}.{self.table_name};"
             self.session.execute(delete_query)
@@ -84,6 +91,7 @@ class CassandraCRUD:
         except Exception as e:
             print(f"An error occurred during deleting all data: {e}")
     def delete_table(self):
+        """Drop the table from the keyspace."""
         try:
             drop_table_query = f"DROP TABLE IF EXISTS {self.keyspace_name}.{self.table_name};"
             self.session.execute(drop_table_query)
@@ -93,6 +101,7 @@ class CassandraCRUD:
 
 
     def create_dynamic_table(self, fields, primary_key):
+        """Create a dynamic table for JSON data"""
         # Ensure there are fields other than the primary key
         if not fields or len(fields) <= 1:
             raise ValueError("Insufficient fields to create a table")
