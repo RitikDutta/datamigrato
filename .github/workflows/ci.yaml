@@ -44,7 +44,7 @@ jobs:
       # Assign a custom name to the container for easy reference
     - name: Run Docker container
       run: |
-        docker run -d --name my_freeapi_container --env MONGODB_URI='${{ secrets.MONGO_CLIENT_URL }}' ritikdutta/freeapi_forked:latest
+        docker run -d --name my_freeapi_container --env MONGODB_URI='${{ secrets.MONGO_CLIENT_URL }}' -p 8080:8080 ritikdutta/freeapi_forked:latest
         sleep 20
         
     - name: Check API availability
