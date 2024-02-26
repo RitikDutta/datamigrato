@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 # Read the contents of your README file
-with open("readme_pypi.md", "r", encoding="utf-8") as fh:
+with open("README_PYPI.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-__version__ = "0.2.7"
+__version__ = "0.2.8"
 REPO_NAME = "datamigrato"
 PKG_NAME= "datamigrato"
 AUTHOR_USER_NAME = "ritikdutta"
