@@ -1,7 +1,6 @@
 <h1 align="center">
-<img src="https://i.imgur.com/leNBMFk.png" width="300">
+<img src="https://i.imgur.com/K0DIvfk.png" width="200">
 </h1><br>
-
 
 # Datamigrato
 
