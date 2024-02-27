@@ -1,4 +1,6 @@
-![logo](https://i.imgur.com/leNBMFk.png)
+<h1 align="center">
+<img src="https://i.imgur.com/leNBMFk.png" width="300">
+</h1><br>
 
 
 # Datamigrato
