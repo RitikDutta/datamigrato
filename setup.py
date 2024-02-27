@@ -4,7 +4,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
 
-__version__ = "0.3.3"
+__version__ = "0.3.4"
 REPO_NAME = "datamigrato"
 PKG_NAME= "datamigrato"
 AUTHOR_USER_NAME = "ritikdutta"
