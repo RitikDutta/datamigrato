@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
-with open('README.md', 'r', encoding='utf-8') as fh:
+with open('README.rst', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
 
-__version__ = "0.3.4"
+__version__ = "0.3.5"
 REPO_NAME = "datamigrato"
 PKG_NAME= "datamigrato"
 AUTHOR_USER_NAME = "ritikdutta"
