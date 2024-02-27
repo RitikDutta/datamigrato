@@ -1,9 +1,9 @@
+
 .. image:: https://i.imgur.com/leNBMFk.png
    :alt: logo
    :align: center
    :width: 100px
    :height: 100px
-
 
 Datamigrato
 ===========
