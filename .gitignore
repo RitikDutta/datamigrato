@@ -2,6 +2,7 @@
 experiments/
 __pycache__/
 .vscode/
+src/datamigrato.egg-info/
 
 #files
 cassandra_*.json
