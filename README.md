@@ -72,3 +72,6 @@ Distributed under the MIT License. See [LICENSE](https://github.com/RitikDutta/d
 Datamigrato is more than a tool; it's a community. We're committed to making our project as open and maintainable as possible—because we know that the best ideas come from collaboration. Whether you're fixing a bug or adding a new feature, your contributions help us all.
 
 So, dive in! The code is designed to be accessible, allowing you to easily make your mark. Let's build something great together.
+
+Created with love by Ritikdutta.
+[Ritikdutta.com](https://ritikdutta.com)
