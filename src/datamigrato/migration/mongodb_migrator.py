@@ -1,3 +1,4 @@
+import glob
 from datamigrato.utils.common_utils import Common_utils
 from datamigrato.adapters.mongodb_adapter import MongoDB_CRUD
 from datamigrato.adapters.cassandra_adapter import CassandraCRUD
@@ -26,7 +27,7 @@ class Mongo_migrator:
             self.mongo_data_list = self.mongo_adapter.read_all()
 
         except Exception as e:
-            print(e)
+            print("Failed to get mongo object", e)
 
     def populate_mongo(self, url):
         """Fetch data from a URL and insert it into MongoDB."""

@@ -27,8 +27,8 @@ class MongoDB_CRUD:
             self.db = self.client[database_name]
             self.collection = self.db[collection_name]
             print("Connected to MongoDB")
-        except ConnectionFailure:
-            print("Failed to connect to MongoDB. Check IP and credentials.")
+        except ConnectionFailure as e:
+            print("Failed to connect to MongoDB: Connection Timeout. Check IP, Credentials or Creds")
         except PyMongoError as e:
             print(f"MongoDB connection error: {e}")
 
