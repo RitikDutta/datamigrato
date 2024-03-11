@@ -15,3 +15,4 @@ mongo_creds.*
 firebase_realtime_params.yaml
 firebase_test.py
 .directory
+test_updates.py
