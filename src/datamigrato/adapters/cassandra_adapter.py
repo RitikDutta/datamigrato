@@ -36,7 +36,7 @@ class CassandraCRUD:
 
             # Setup authentication and connect to Cassandra
             auth_provider = PlainTextAuthProvider(secrets["clientId"], secrets["secret"])
-            cluster = Cluster(cloud=cloud_config, auth_provider=auth_provider)
+            cluster = Cluster(cloud=cloud_config, auth_provider=auth_provider, protocol_version=4)
             self.session = cluster.connect(self.keyspace_name)
             print("Connected to Cassandra")
         except Exception as e:
@@ -45,7 +45,7 @@ class CassandraCRUD:
 
     def _detect_secure_bundle(self):
         """Detects and returns the path to the secure bundle."""
-        secure_bundle_files = glob.glob('secure-connect-cassandra-*.zip')
+        secure_bundle_files = glob.glob('secure-connect-*.zip')
         if len(secure_bundle_files) != 1:
             raise FileNotFoundError("Unable to automatically determine secure bundle file.")
         return secure_bundle_files[0]
