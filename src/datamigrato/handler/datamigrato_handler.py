@@ -17,7 +17,7 @@ class Datamigrato:
         migrator = Mongo_migrator(database_name=database_name, collection_name=collection_name, client_url=client_url, cred_file=cred_file)
         migrator.migrate_to_cassandra(primary_key=primary_key, keyspace_name=keyspace_name, table_name=table_name, flatten=flatten, secure_bundle=secure_bundle, token=cassandra_token)
 
-    def mongo_to_firebase(self, database_name, collection_name, refrence_url, root_node, client_url=None, cred_file=None, group_by=None, firebase_realtime_token=None):
+    def mongo_to_firebase_realtime(self, database_name, collection_name, refrence_url, root_node, client_url=None, cred_file=None, group_by=None, firebase_realtime_token=None):
         print("---Migrating---")
         migrator = Mongo_migrator(database_name=database_name, collection_name=collection_name, client_url=client_url, cred_file=cred_file)
         migrator.migrate_to_firebase_realtime(refrence_url=refrence_url, root_node=root_node, group_by=group_by, token=firebase_realtime_token)

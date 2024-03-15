@@ -9,7 +9,7 @@ class Firebase_realtime_migrator:
     def __init__(self, refrence_url, root_node, token=None):
         self.common_utils = Common_utils()
         try:
-            self.firebase_realtime_adapter = FirebaseRealtimeDatabaseCRUD(refrence_url, root_node, token)
+            self.firebase_realtime_adapter = FirebaseRealtimeDatabaseCRUD(refrence_url=refrence_url, root_node=root_node, token=token)
             self.firebase_realtime_data_list = self.firebase_realtime_adapter.read_all()
         except Exception as e:
             print(e)

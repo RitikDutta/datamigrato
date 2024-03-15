@@ -26,7 +26,7 @@ class FirebaseRealtimeDatabaseCRUD:
                 self.app = firebase_admin.initialize_app(self.cred, {'databaseURL': refrence_url})
             self.root_node_ref = db.reference(self.root_node)
             print("Connected to Firebase Realtime")
-            self.read_all()
+            # self.read_all()
         except Exception as e:
             print(f"Failed to connect to Firebase Realtime: {e}")
         
